@@ -85,4 +85,7 @@ public class SudokuServiceImpl implements SudokuService {
             }
         }
     }
+    //todo:// to generate on the basis of 3 modes: easy, medium, hard and advanced level
+    //todo:// replace 0 with _ when sending response; format response in new lines
+    //todo:// setup docker and pipelines for this
 }
