@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Puzzle</title>
+    <style>
+        /* Basic Styling for Sudoku Grid */
+        table {
+            border-collapse: collapse;
+            margin: 20px auto;
+        }
+        td {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            border: 1px solid #ccc;
+        }
+        input {
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            border: none;
+            font-size: 1.2em;
+        }
+        .read-only {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+<h1 style="text-align: center;">Sudoku Puzzle</h1>
+<table id="sudoku-grid"></table>
+<script>
+    // Function to make the API call to get the Sudoku puzzle
+    async function fetchSudoku() {
+        try {
+            // Replace this URL with the actual URL of your backend API that generates the Sudoku puzzle
+            const response = await fetch('http://localhost:8080/api/sudoku/generate');
+
+            if (response.ok) {
+                const data = await response.json();
+                renderSudoku(data.puzzle);
+            } else {
+                console.error("Error fetching puzzle data.");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    }
+
+    // Function to render the Sudoku grid on the page
+    function renderSudoku(puzzle) {
+        const grid = document.getElementById('sudoku-grid');
+        let rowIndex = 0;
+        for (let i = 0; i < 9; i++) {
+            const row = document.createElement('tr');
+            for (let j = 0; j < 9; j++) {
+                const cell = document.createElement('td');
+                const value = puzzle[rowIndex * 9 + j]; // Get the value from the puzzle string
+
+                // Create an input field for each cell
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.maxLength = 1;
+                input.value = value === '0' ? '' : value; // '0' indicates an empty cell in the puzzle
+
+                // Make the input field read-only for pre-filled cells (based on the initial puzzle)
+                if (value !== '0') {
+                    input.classList.add('read-only');
+                    input.disabled = true;
+                }
+
+                cell.appendChild(input);
+                row.appendChild(cell);
+            }
+            grid.appendChild(row);
+            rowIndex++;
+        }
+    }
+
+    // Initialize by fetching the Sudoku puzzle
+    fetchSudoku();
+</script>
+</body>
+</html>

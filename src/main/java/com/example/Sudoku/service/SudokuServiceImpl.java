@@ -23,8 +23,8 @@ public class SudokuServiceImpl implements SudokuService {
             for (int j = 0; j < GRID_SIZE; j++) {
                 s += sudoku[i][j];
             }
-            s += "\n";
         }
+//        s = s.replaceAll("0", "_");
         return s;
     }
 
